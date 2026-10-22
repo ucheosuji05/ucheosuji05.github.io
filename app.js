@@ -97,7 +97,7 @@
   function updateTitle(r) {
     let t = viewName(r.view);
     if (r.panel) t = panelTitle(r.panel) + " · " + t;
-    document.title = (r.view === "exterior" && !r.panel ? "Uche Osuji | Computer Engineering @ Rose-Hulman" : t + " | Uche Osuji");
+    document.title = (r.view === "exterior" && !r.panel ? "Uche Osuji | Computer Engineering at Rose-Hulman" : t + " | Uche Osuji");
   }
   function focusHeading() { const h = $("#view h1"); if (h) h.focus({ preventScroll: true }); window.scrollTo(0, 0); }
   function returnFocus() {
@@ -135,7 +135,7 @@
       <${h} class="intro-h" ${h === "h1" ? 'tabindex="-1"' : 'aria-hidden="true"'}>Hi, I'm <span class="wordmark">Uche Osuji</span>. I can be…</${h}>
       <ul class="roles" aria-label="I can be">${roles}</ul>
       <p class="intro-copy">Computer engineering student building products, solving problems, and creating community.</p>
-      <p class="intro-meta">Computer Engineering @ Rose-Hulman '27</p>
+      <p class="intro-meta">Computer Engineering at Rose-Hulman '27</p>
       <div class="actions">
         <a class="btn" href="#/living-room">${icon("door")}<span>Enter the Dreamhouse</span></a>
         <a class="btn alt" href="#/work">${icon("list")}<span>View My Work</span></a>
