@@ -16,11 +16,12 @@ python3 -m http.server 8000
 | File | What it holds |
 |---|---|
 | `index.html` | Shell: top bar, view, scene bar, panel dialog |
-| `data.js` | All content (resume-based), rooms, hotspots, roles, skills, case studies |
-| `scenes.js` | Original SVG room illustrations and simplified evidence diagrams |
+| `data.js` | All content, rooms, scene photos, hotspots, roles, skills, case studies |
+| `scenes.js` | Simplified evidence diagrams (KDP flow, robot signal flow) |
 | `app.js` | Hash router, scenes, hotspots, panels, closet selector, focus handling |
 | `styles.css` | Visual system (Fredoka, DM Sans, Pacifico wordmark; palette from the brief) |
-| `MISSING-ASSETS.md` | Every placeholder and the files it expects |
+| `MISSING-ASSETS.md` | What is still outstanding and where each file goes |
+| `assets/` | Scene photos, resume PDF, icons, portrait, community and project images |
 
 ## Shareable links
 
@@ -30,22 +31,14 @@ python3 -m http.server 8000
 | `#/living-room`, `#/kitchen`, `#/closet`, `#/garage` | A room |
 | `#/closet/engineer`, `#/closet/product`, `#/closet/community` | Closet with a look selected |
 | `#/work` | All Work list |
-| `#/work/crwn`, `#/work/hair-hub`, `#/work/keurig-dr-pepper`, `#/work/line-following-robot`, `#/work/risc-v-processor`, `#/work/mp3-player`, `#/work/trailer-system` | Case study |
+| `#/work/crwn`, `#/work/hair-hub`, `#/work/keurig-dr-pepper`, `#/work/line-following-robot`, `#/work/risc-v-processor`, `#/work/mp3-player` | Case study |
 | `#/work/<slug>/<section>` | Case study scrolled to a section, e.g. `#/work/crwn/results` |
 | `#/living-room/about`, `/community`, `/activities`, `#/kitchen/outcomes`, `/how-i-work`, `#/closet/skills` | Room panels |
 | `#/resume`, `#/contact` | Available from anywhere |
 
-## Room photos
+## Scene backgrounds
 
-Scenes are illustrations until Uche's photos arrive. Expected files (16:10, 1600x1000 or larger):
-
-- `assets/rooms/exterior.jpg`
-- `assets/rooms/living-room.jpg`
-- `assets/rooms/kitchen.jpg`
-- `assets/rooms/closet.jpg`
-- `assets/rooms/garage.jpg`
-
-Add the file, then set that room's `photo` in `data.js`. Hotspots are stored as percent of the image, so they do not move when the photo replaces the illustration. Only the next room's photo is preloaded. Details are in `MISSING-ASSETS.md`.
+The five rooms use stills from Barbie: Life in the Dreamhouse, supplied by Uche Osuji. Each is pre-cropped to 16:10 in `assets/rooms/` (exterior, living-room, kitchen, closet, garage) and set as that room's `photo` in `data.js`, with its pixel size in `w`/`h`. Hotspot `x`/`y` are percent of the cropped image, so they stay on the same object as the scene scales. On screens under 900 px the hotspots become a list of large buttons under the image. The scenes are not Uche's artwork and the site is not affiliated with Mattel; the footer says so.
 
 ## Accessibility
 
@@ -56,4 +49,4 @@ Add the file, then set that room's `photo` in `data.js`. Hotspots are stored as 
 
 ## Content rules
 
-Only resume content and what was already on the site. No invented metrics, photos or contributions. No phone number. Missing evidence is a marked placeholder listed in `MISSING-ASSETS.md`. Original illustrations only; not affiliated with any toy brand.
+Only content Uche Osuji supplied (resume, design brief, project reports and slides, photos) and her public App Store listings. No invented metrics, photos or contributions. No phone number. A section with nothing supplied yet is hidden, and the gap is listed in `MISSING-ASSETS.md`. Independent personal portfolio, not affiliated with Mattel.

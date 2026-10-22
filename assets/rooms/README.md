@@ -1,3 +1,3 @@
-# Room photos go here
+# Scene backgrounds
 
-exterior.jpg, living-room.jpg, kitchen.jpg, closet.jpg, garage.jpg (16:10, 1600x1000 or larger). See ../../MISSING-ASSETS.md.
+Stills from Barbie: Life in the Dreamhouse, supplied by Uche Osuji, cropped to 16:10. Not original artwork. Sources and sizes are listed in ../../MISSING-ASSETS.md.

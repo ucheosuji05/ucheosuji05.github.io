@@ -46,7 +46,9 @@
   const icon = (n, cls = "ico") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${ICON_PATHS[n] || ICON_PATHS.heart}"/></svg>`;
 
   /* ---------- small builders ---------- */
-  const ph = (text, kind = "") => `<div class="ph ${kind}" role="note"><span class="ph-tag">Placeholder</span><span class="ph-text">Needed from Uche: ${esc(text)}</span></div>`;
+  // Content not yet supplied is hidden, never shown as a placeholder.
+  const ph = () => "";
+  const roleDates = l => [l.role, l.dates].filter(Boolean).map(esc).join(" · ");
   const tags = list => list && list.length ? `<ul class="tags" aria-label="Tags">${list.map(t => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
   const panelFooter = (backLabel) => `<div class="panel-foot">
       <button type="button" class="btn" data-close>${icon("back")}<span>${esc(backLabel)}</span></button>
@@ -117,12 +119,11 @@
     return `<li><a class="spot" href="${h.href}">${inner}</a></li>`;
   }
   function sceneHTML(r) {
-    const art = r.photo ? `<img class="scene-art" src="${esc(r.photo)}" alt="" width="1600" height="1000" decoding="async">` : SCENES[r.id];
+    const art = r.photo ? `<img class="scene-art" src="${esc(r.photo)}" alt="" width="${r.w || 1600}" height="${r.h || 1000}" decoding="async"${r.id === "exterior" ? ' fetchpriority="high"' : ""}>` : SCENES[r.id];
     return `<div class="scene-wrap"><div class="scene" role="group" aria-label="${esc(r.name)} scene">
         <div class="scene-img" role="img" aria-label="${esc(r.alt)}">${art}</div>
         ${r.id === "exterior" ? introHTML("in-scene") : ""}
         <div class="hotspots">${r.hotspots.map(hotspotHTML).join("")}</div>
-        ${r.photo ? "" : `<p class="art-note">Illustration. Real photo coming soon.</p>`}
       </div></div>
       <nav class="spots" aria-label="In the ${esc(r.name)}"><ul>${r.hotspots.map(spotButtonHTML).join("")}</ul></nav>`;
   }
@@ -131,7 +132,7 @@
     const map = D.rooms.filter(r => r.id !== "exterior").map(r => `<li><a href="#/${r.id}">${esc(r.name)}</a></li>`).join("");
     const h = where === "in-scene" ? "h1" : "p";
     return `<div class="intro ${where}">
-      <${h} class="intro-h" ${h === "h1" ? 'tabindex="-1"' : 'aria-hidden="true"'}>Hi, I'm <span class="wordmark">Uche</span>. I can be...</${h}>
+      <${h} class="intro-h" ${h === "h1" ? 'tabindex="-1"' : 'aria-hidden="true"'}>Hi, I'm <span class="wordmark">Uche Osuji</span>. I can be…</${h}>
       <ul class="roles" aria-label="I can be">${roles}</ul>
       <p class="intro-copy">Computer engineering student building products, solving problems, and creating community.</p>
       <p class="intro-meta">Computer Engineering @ Rose-Hulman '27</p>
@@ -140,6 +141,7 @@
         <a class="btn alt" href="#/work">${icon("list")}<span>View My Work</span></a>
         <a class="btn alt" href="#/resume">${icon("doc")}<span>Resume</span></a>
       </div>
+      <p class="dl-line"><a class="text-link" href="${esc(D.person.resumePdf)}" download>Download resume (PDF)</a></p>
       <nav class="mini-map" aria-label="House map"><p>House map</p><ul>${map}</ul></nav>
     </div>`;
   }
@@ -226,7 +228,7 @@
       <p class="page-lede">Every project and role in one plain list. Each one has its own link you can share.</p>
       <h2>Product</h2><ul class="work-list">${group("Product")}</ul>
       <h2>Engineering</h2><ul class="work-list">${group("Engineering")}</ul>
-      <h2>Community and leadership</h2><ul class="work-list">${D.leadership.map(l => `<li class="work-item"><span class="wi-title">${esc(l.org)}</span>${l.placeholder ? ` <span class="badge">Details to confirm</span>` : ""}<p class="wi-meta">${esc(l.role)} · ${esc(l.dates)}</p></li>`).join("")}</ul>
+      <h2>Community and leadership</h2><ul class="work-list">${D.leadership.map(l => `<li class="work-item"><span class="wi-title">${esc(l.org)}</span><p class="wi-meta">${roleDates(l)}</p></li>`).join("")}</ul>
       <p><a class="text-link" href="#/living-room/community">Open the community gallery</a></p>
       <h2>Education</h2><ul class="work-list"><li class="work-item"><span class="wi-title">${esc(D.education.school)}</span><p class="wi-meta">${esc(D.education.degree)} · ${esc(D.education.grad)}</p></li></ul>
     </section>`;
@@ -239,7 +241,7 @@
     const role = D.roles[currentRole];
     if (!role) { out.innerHTML = `<h2>Choose a look</h2><p>Pick Engineer, Product Builder or Community Leader to see the matching work and skills. Everything is also in <a href="#/work">All Work</a>.</p>`; return; }
     const projs = role.projects.map(project).map(p => `<li><a class="mini-card" href="#/work/${p.slug}"><span class="mc-title">${esc(p.title)}</span><span class="mc-meta">${esc(p.role)} · ${esc(p.dates)}</span></a></li>`).join("");
-    const lead = role.leadership ? D.leadership.map(l => `<li><a class="mini-card" href="#/living-room/community"><span class="mc-title">${esc(l.org)}</span><span class="mc-meta">${esc(l.role)} · ${esc(l.dates)}</span></a></li>`).join("") : "";
+    const lead = role.leadership ? D.leadership.map(l => `<li><a class="mini-card" href="#/living-room/community"><span class="mc-title">${esc(l.org)}</span><span class="mc-meta">${roleDates(l)}</span></a></li>`).join("") : "";
     const skillTags = D.skills.filter(s => role.skills.includes(s.group)).map(s => `<div class="skill-group"><h4>${esc(s.group)}</h4>${tags(s.items)}</div>`).join("") +
       (role.extraSkills ? `<div class="skill-group"><h4>Used on CRWN</h4>${tags(role.extraSkills)}</div>` : "");
     const dest = room(role.room);
@@ -252,7 +254,7 @@
 
   /* ---------- panels ---------- */
   const PANELS = {
-    about: () => ({ room: "living-room", title: "About Uche", html: aboutHTML() }),
+    about: () => ({ room: "living-room", title: "About Uche Osuji", html: aboutHTML() }),
     community: () => ({ room: "living-room", title: "Community and leadership", html: communityHTML() }),
     activities: () => ({ room: "living-room", title: "Activities", html: activitiesHTML() }),
     outcomes: () => ({ room: "kitchen", title: "Product outcomes", html: outcomesHTML() }),
@@ -306,15 +308,16 @@
 
   /* ---------- panel content ---------- */
   function projectHTML(p) {
-    const media = (m, kind) => m.img ? `<figure class="shot"><img src="${esc(m.img)}" alt="${esc(m.alt || "")}" loading="lazy" decoding="async">${m.caption ? `<figcaption>${esc(m.caption)}</figcaption>` : ""}</figure>` : ph(m.ph, kind);
-    const hero = p.hero.diagram ? DIAG[p.hero.diagram] : media(p.hero, "ph-img");
+    const media = m => m.img ? `<figure class="shot"><img src="${esc(m.img)}" alt="${esc(m.alt || "")}" loading="lazy" decoding="async">${m.caption ? `<figcaption>${esc(m.caption)}</figcaption>` : ""}</figure>` : "";
+    const gallery = g => `<figure class="gallery"><ul class="phones">${g.gallery.map(m => `<li><img src="${esc(m.img)}" alt="${esc(m.alt)}" loading="lazy" decoding="async" width="600" height="1299"></li>`).join("")}</ul>${g.caption ? `<figcaption>${esc(g.caption)}</figcaption>` : ""}</figure>`;
+    const hero = p.hero.diagram ? DIAG[p.hero.diagram] : p.hero.gallery ? gallery(p.hero) : media(p.hero);
     const sec = s => {
       const body = (s.sub ? `<p class="sub">${esc(s.sub)}</p>` : "") +
         (s.p || []).map(t => `<p>${esc(t)}</p>`).join("") +
         (s.list ? `<ul class="bullets">${s.list.map(t => `<li>${esc(t)}</li>`).join("")}</ul>` : "") +
         (s.stats ? `<ul class="stats">${s.stats.map(([n, l]) => `<li><span class="stat-n">${esc(n)}</span><span class="stat-l">${esc(l)}</span></li>`).join("")}</ul>` : "") +
-        (s.evidence ? `<div class="evidence">${s.evidence.map(e => media(e, "ph-img small")).join("")}</div>` : "") +
-        (s.ph ? ph(s.ph) : "");
+        (s.evidence && s.evidence.some(e => e.img) ? `<div class="evidence">${s.evidence.map(media).join("")}</div>` : "");
+      if (!body) return "";
       return `<section class="cs-sec" id="s-${esc(s.id)}"><h3>${esc(s.h)}</h3>${body}</section>`;
     };
     return `<div class="cs-top">
@@ -329,51 +332,51 @@
         ${p.status ? `<p><span class="badge">${esc(p.status)}</span></p>` : ""}
         ${tags(p.tags)}
         ${p.note ? `<p class="note">${esc(p.note)}</p>` : ""}
+        ${p.links ? `<p class="cs-links">${p.links.map(l => `<a class="btn alt" href="${esc(l.href)}" target="_blank" rel="noopener">${icon("arrow")}<span>${esc(l.label)}</span></a>`).join(" ")}</p>` : ""}
         <p class="share">Share this project: <a href="#/work/${p.slug}">ucheosuji05.github.io/#/work/${p.slug}</a></p>
       </div>${p.sections.map(sec).join("")}`;
   }
   function aboutHTML() {
     const e = D.education;
     return `<div class="about">
-      <div class="about-img">${ph("Portrait or framed photo of Uche", "ph-img portrait")}</div>
+      <div class="about-img"><img src="assets/people/uche-portrait.jpg" alt="Portrait of Uche Osuji smiling outdoors in a white top" width="746" height="933" decoding="async"></div>
       <div class="about-text">
         <p>Computer Engineering student at ${esc(e.school)}, graduating ${esc(e.grad)}, with minors in Geography and Spanish.</p>
         <p>I build across the stack, from embedded C/C++ firmware on commercial brewers to a full-stack mobile app I co-founded.</p>
         <ul class="facts"><li><b>GPA</b> ${esc(e.gpa)}</li><li><b>${esc(e.deans.split(":")[0])}</b> ${esc(e.deans.split(": ")[1])}</li></ul>
         <p class="small"><b>Courses:</b> ${esc(e.courses)}</p>
       </div></div>
-      <h3>Why engineering, product building and community</h3>${ph("A short note, in Uche's words, on why these three matter to her")}
-      <h3>Interests</h3>${ph("Interests outside class and work")}
-      <h3>Photo album</h3><div class="evidence">${ph("Personal photo", "ph-img small")}${ph("Rose-Hulman photo", "ph-img small")}${ph("Photo with friends or family", "ph-img small")}</div>
+      <h3>Outside class and work</h3><p>Women's Varsity Cheer since October 2024. <a class="text-link" href="#/living-room/community">See community and leadership</a></p>
       <p class="next-hint">Explore next: <a href="#/kitchen">the Kitchen (product studio)</a> or <a href="#/garage">the Garage (engineering)</a>.</p>`;
   }
   function communityHTML() {
-    return `<p>Separate entries for each role. Outcomes are listed only when documented.</p>
-      <ul class="lead-list">${D.leadership.map(l => `<li class="lead">
-        ${ph(l.org + " photo", "ph-img small")}
-        <div><h3>${esc(l.org)}</h3><p class="sub">${esc(l.role)} · ${esc(l.dates)}</p>
-        ${l.placeholder ? ph("Role, dates and what Uche does with cheer (listed in her design brief, not on her resume)") : ph("One action and a concrete example from this role")}</div></li>`).join("")}</ul>
-      <p>Related: at Hair Hub, Uche drove the launch with a 15-person ambassador team. <a href="#/work/hair-hub">Open Hair Hub</a></p>`;
+    return `<p>Leadership roles and teams, each listed separately.</p>
+      <ul class="lead-list">${D.leadership.map(l => `<li class="lead${l.img ? "" : " no-img"}">
+        ${l.img ? `<img src="${esc(l.img)}" alt="${esc(l.alt)}" loading="lazy" decoding="async">` : ""}
+        <div><h3>${esc(l.org)}</h3><p class="sub">${roleDates(l)}</p></div></li>`).join("")}</ul>
+      <p>Related: at Hair Hub, Uche Osuji led the launch with a 15-person ambassador team. <a href="#/work/hair-hub">Open Hair Hub</a></p>`;
   }
   function activitiesHTML() {
     const items = [
       ["Spring 2024", "Dean's List", "Rose-Hulman"],
-      ["May 2024 to May 2025", "NSBE Membership Chair", "Membership role for the chapter"],
+      ["May 2024 to May 2025", "NSBE Membership Chair", "National Society of Black Engineers"],
       ["Jun 2024 to Jun 2025", "Hair Hub, Product Manager", "Launch through partnerships, pitch competitions and a 15-person ambassador team"],
-      ["Dec 2024 to Present", "Chi Omega Fraternity, Recruitment and COB Chair", "Recruitment"],
+      ["Oct 2024 to Present", "Women's Varsity Cheer", "Rose-Hulman"],
+      ["Dec 2024 to Present", "Chi Omega Fraternity, Recruitment and COB Chair", "Rose-Hulman"],
       ["Sep 2025 to Present", "CRWN, Co-Founder and CTO", "Secured $18,150 in non-dilutive funding through startup competitions and accelerators"],
       ["Winter and Spring 2026", "Dean's List", "Rose-Hulman"],
-      ["Sep 2026 to Present", "Adobe Student Ambassador", "Campus ambassador role"]
+      ["Jun to Aug 2025", "Keurig Dr Pepper, SWE Intern, Brew Engine", "Benton Harbor, MI"],
+      ["Jun to Aug 2026", "Keurig Dr Pepper, SWE Intern, Embedded Software", "Burlington, MA"],
+      ["Sep 2026 to Present", "Adobe Student Ambassador", "Student Ambassador"]
     ];
-    return `<ol class="timeline">${items.map(([d, t, c]) => `<li><span class="tl-date">${esc(d)}</span><span class="tl-title">${esc(t)}</span><span class="tl-note">${esc(c)}</span></li>`).join("")}</ol>
-      ${ph("Specific events for the board: name, date, and what Uche did at each")}`;
+    return `<ol class="timeline">${items.map(([d, t, c]) => `<li><span class="tl-date">${esc(d)}</span><span class="tl-title">${esc(t)}</span><span class="tl-note">${esc(c)}</span></li>`).join("")}</ol>`;
   }
   function outcomesHTML() {
     const notes = [
       ["100+", "users in the first 48 hours", "crwn"], ["300K+", "organic social views over eight months, zero ad spend", "crwn"], ["$18,150", "non-dilutive funding", "crwn"],
       ["12K+", "downloads within nine months", "hair-hub"], ["1M+", "social views", "hair-hub"], ["15", "person ambassador team", "hair-hub"]
     ];
-    return `<p>Results from the resume, pinned to the fridge. Each note opens the project's results.</p>
+    return `<p>Product results, pinned up in the kitchen. Each note opens the project's results.</p>
       <ul class="notes">${notes.map(([n, l, s], i) => `<li class="n${i % 3}"><a href="#/work/${s}/results"><span class="stat-n">${esc(n)}</span><span class="stat-l">${esc(l)}</span><span class="note-src">${esc(project(s).title)}</span></a></li>`).join("")}</ul>`;
   }
   function howHTML() {
@@ -385,28 +388,27 @@
       ["Iteration", "Reproduced failures and validated fixes with cross-functional teams at KDP; tuned PID live over BLE on the robot.", "keurig-dr-pepper/2025"]
     ];
     return `<p>The planning board. Each step points at real work where it happened.</p>
-      <ol class="steps">${steps.map(([h, t, l]) => `<li><h3>${esc(h)}</h3><p>${esc(t)}</p><a class="text-link" href="#/work/${l}">See it</a></li>`).join("")}</ol>
-      ${ph("Uche's own description of how she works")}`;
+      <ul class="steps">${steps.map(([h, t, l], i) => `<li><h3><span class="step-n">${i + 1}</span> ${esc(h)}</h3><p>${esc(t)}</p><a class="text-link" href="#/work/${l}">See it</a></li>`).join("")}</ul>`;
   }
   function skillsHTML() {
-    return `<p>Skills from the resume, grouped by how they are used. Labeled tags only, no scores.</p>
+    return `<p>Skills grouped by how they are used. Labeled tags only, no scores.</p>
       ${D.skills.map(s => `<div class="skill-group"><h3>${esc(s.group)}</h3>${tags(s.items)}</div>`).join("")}`;
   }
   function resumeHTML() {
     const e = D.education, P = D.person;
     const exp = [
-      ["CRWN", "Co-Founder and CTO", "Sep 2025 to Present · Remote", ["Built a full-stack mobile MVP (React Native, Expo, JavaScript, Supabase) with hair profiles, social posts, community threads and push notifications.", "Prioritized user-generated content and provider profiles based on feedback.", "Secured $18,150 in non-dilutive funding through startup competitions and accelerators.", "100+ users in the first 48 hours and 300K+ organic social views over eight months, with zero ad spend."], "crwn"],
-      ["Keurig Dr Pepper", "SWE Intern, Embedded Software", "Jun to Aug 2026 · Burlington, MA", ["Built end-to-end thermal cutoff fault detection and alerting in C/C++ for commercial brewers, exposing 2 previously undisplayed fault conditions with recovery guidance.", "Carried fault communication across 3 software layers, tested with Tera Term over UART and Jenkins through HMI notifications.", "Resolved 2 firmware and HMI defects (low-water notification, brew counter) using Jira and C/C++."], "keurig-dr-pepper"],
+      ["CRWN", "Co-Founder and CTO", "Sep 2025 to Present · Remote", ["Built a full-stack mobile MVP (React Native, Expo, JavaScript, Supabase) with hair profiles, social posts, community threads and push notifications.", "Prioritized user-generated content and provider profiles based on user and provider feedback.", "Secured $18,150 in non-dilutive funding through startup competitions and accelerators.", "100+ users in the first 48 hours and 300K+ organic social views over eight months, with zero ad spend."], "crwn"],
+      ["Keurig Dr Pepper", "SWE Intern, Embedded Software", "Jun to Aug 2026 · Burlington, MA", ["Developed an end-to-end thermal cutoff fault detection and alerting feature in C/C++ for commercial brewing systems, exposing 2 previously undisplayed fault conditions with recovery guidance.", "Implemented and validated fault communication across 3 software layers, testing with Tera Term over UART and Jenkins through user-facing HMI notifications.", "Resolved 2 firmware and HMI defects (low-water notification and brew counter errors) using Jira and C/C++."], "keurig-dr-pepper"],
       ["Keurig Dr Pepper", "SWE Intern, Brew Engine", "Jun to Aug 2025 · Benton Harbor, MI", ["Built a Python GUI cycle-generation tool automating testing for 13+ beverage-cycle variants, removing waits of up to three weeks.", "Ran 48+ thermal lab tests on heating elements that informed steam quality and consistency design changes.", "Reproduced failures and validated fixes with cross-functional teams."], "keurig-dr-pepper"],
-      ["Hair Hub", "Product Manager", "Jun 2024 to Jun 2025 · Remote", ["DIY hair care app for Black women: inspiration, tutorials, product recommendations and planning tools.", "Drove the launch through partnerships, pitch competitions and a 15-person ambassador team.", "12K+ downloads in nine months and 1M+ social views."], "hair-hub"]
+      ["Hair Hub", "Product Manager", "Jun 2024 to Jun 2025 · Remote", ["DIY hair care app for Black women: styling inspiration, tutorials, product recommendations and planning tools.", "Led the launch through partnerships, pitch competitions and a 15-person ambassador team.", "12K+ downloads in nine months and 1M+ social views."], "hair-hub"]
     ];
     const projs = ["line-following-robot", "risc-v-processor", "mp3-player"].map(project);
     return `<div class="resume-actions">
         <button type="button" class="btn" data-print>${icon("doc")}<span>Print or save as PDF</span></button>
         ${P.resumePdf ? `<a class="btn alt" href="${esc(P.resumePdf)}" download>${icon("doc")}<span>Download PDF</span></a>` : ""}
       </div>
-      ${P.resumePdf ? "" : ph("Resume PDF file (assets/Uche-Osuji-Resume.pdf) for a one-click download")}
       <p class="r-contact"><a href="mailto:${esc(P.email)}">${esc(P.email)}</a> · <a href="${esc(P.linkedin)}" target="_blank" rel="noopener">${esc(P.linkedinLabel)}</a></p>
+      <p class="r-name"><b>Uche Osuji</b></p>
       <section class="r-sec"><h3>Education</h3><p><b>${esc(e.school)}</b>, ${esc(e.grad)}<br>${esc(e.degree)}<br>GPA ${esc(e.gpa)} · ${esc(e.deans)}</p><p class="small"><b>Courses:</b> ${esc(e.courses)}</p></section>
       <section class="r-sec"><h3>Experience</h3>${exp.map(([o, r, d, b, s]) => `<div class="r-item"><p><b>${esc(o)}</b>, ${esc(r)}<br><span class="sub">${esc(d)}</span></p><ul class="bullets">${b.map(x => `<li>${esc(x)}</li>`).join("")}</ul><a class="text-link no-print" href="#/work/${s}">Case study</a></div>`).join("")}</section>
       <section class="r-sec"><h3>Projects</h3>${projs.map(p => `<div class="r-item"><p><b>${esc(p.title)}</b>, ${esc(p.role)}<br><span class="sub">${esc(p.dates)}</span></p><p>${esc(p.summary)}</p><a class="text-link no-print" href="#/work/${p.slug}">Case study</a></div>`).join("")}</section>
@@ -415,7 +417,7 @@
         <p><b>Tools:</b> Git, Jenkins, Jira, Tera Term, ModelSim, PSpice, Figma, LabVIEW, DesignSpark, CST Studio, Ansys</p>
         <p><b>Hardware:</b> Arduino, Circuit Design, PCB Design, Breadboarding, Soldering, Oscilloscope</p>
         <p><b>Protocols:</b> UART, I2C, BLE</p></section>
-      <section class="r-sec"><h3>Leadership</h3><ul class="bullets">${D.leadership.filter(l => !l.placeholder).map(l => `<li><b>${esc(l.org)}</b>, ${esc(l.role)} (${esc(l.dates)})</li>`).join("")}</ul></section>`;
+      <section class="r-sec"><h3>Leadership</h3><ul class="bullets">${D.leadership.map(l => `<li><b>${esc(l.org)}</b>${l.role ? ", " + esc(l.role) : ""} (${esc(l.dates)})</li>`).join("")}</ul></section>`;
   }
   function contactHTML() {
     const P = D.person;

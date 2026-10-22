@@ -1,63 +1,55 @@
-# Missing assets
+# Still outstanding
 
-Everything below shows on the site as a clearly marked **Placeholder** (dashed box, "Needed from Uche: ..."). Nothing was invented to fill these gaps. Content on the site comes only from Uche's resume, her design brief, and the previous version of the site.
+Updated October 21 2026. Nothing on the site is invented. A section with nothing supplied yet is **hidden**, not shown as a placeholder. Each item below lists what to send and where it goes.
 
-## 1. Room photos (scene backgrounds)
+## 1. Logo
 
-Pages 7 to 11 of the design brief PDF are image-only and could not be extracted, and no room or Dreamhouse photos exist in this repo. Each scene is currently an original SVG illustration (in `scenes.js`).
+- The header uses the afro-puff silhouette with a pink bow that Uche Osuji supplied (`logo-silhouette.png`), keyed to transparent, next to the name "Uche Osuji". The same mark is the favicon and Apple touch icon (`favicon.ico`, `assets/icons/`).
+- **Still needed:** the clean, licensed original as a transparent PNG or SVG, plus a small icon version. The supplied file carries a stock-site watermark ("svgs...") across the neck. It was not edited out. It cannot be seen at header or favicon sizes, but it shows faintly at large sizes, so no large version of the mark is published.
 
-| Scene | Expected file | Used by |
-|---|---|---|
-| Exterior (homepage) | `assets/rooms/exterior.jpg` | `#/` |
-| Living room | `assets/rooms/living-room.jpg` | `#/living-room` |
-| Kitchen | `assets/rooms/kitchen.jpg` | `#/kitchen` |
-| Closet | `assets/rooms/closet.jpg` | `#/closet` |
-| Garage | `assets/rooms/garage.jpg` | `#/garage` |
+## 2. Scene backgrounds (higher resolution)
 
-Format: 16:10 landscape, 1600x1000 or larger (2400x1500 ideal), JPG or WebP, under about 400 KB each. Keep the same camera angle, crop, saturation and lighting across all five. On the exterior, keep the left 45% of the frame quiet (sky or lawn); the intro card sits there on large screens.
+All five rooms use the supplied stills from Barbie: Life in the Dreamhouse, cropped to 16:10 in `assets/rooms/`. They are low resolution and look soft on a 1440 px desktop. Uncropped originals at 1920 px wide or more would fix that.
 
-**To swap one in:** drop the file at the path above, then in `data.js` set that room's `photo` to the path (the commented value is already there). Hotspot positions are percent of the image (`x`, `y`), so they stay attached as the scene scales. Check each marker against the real photo and nudge `x`/`y` only if the object sits somewhere else. If a proposed object is not in the photo, keep the hotspot; it still works as a labeled marker.
+| Room | File used | Supplied size | Cropped to |
+|---|---|---|---|
+| Exterior | `exterior.jpg` | 1199x672 (12 px black bar on the right) | 1075x672 |
+| Living room | `living-room-b-sofa.jpg` | 600x450 | 600x375 |
+| Kitchen | `kitchen.jpg` | 529x301 | 482x301 (softest) |
+| Closet | `closet-a-zebra-rug.jpg` | 1200x718 | 1149x718 |
+| Garage | `garage-b-car.jpg` | 992x828 | 992x620 |
 
-## 2. Resume PDF
+Alternates not used: `living-room-a-staircase.jpg` (735x476), `closet-b-runway.jpg` (736x428), `garage-a-doors.jpg` (730x398).
 
-- `assets/Uche-Osuji-Resume.pdf`, then set `person.resumePdf` in `data.js`. Until then the Resume panel shows the full resume as text with a "Print or save as PDF" button. Remove the phone number from the PDF before adding it (the site never shows a phone number).
+To swap a scene: crop it to 16:10, save it over the file in `assets/rooms/`, update `w`/`h` in `data.js`, and check each hotspot's `x`/`y` (percent of the image).
 
-## 3. Portrait and personal photos (Living room)
+## 3. Living room
 
-- Portrait or framed photo of Uche for the About panel (4:5), suggested `assets/people/uche-portrait.jpg`
-- Photo album: 3 personal photos (personal, Rose-Hulman, friends or family), suggested `assets/album/1.jpg` to `3.jpg`
-- Optional character illustration of Uche (the brief says to do this only after navigation and content work; deliberately skipped)
+- **Photo album:** a personal photo, a Rose-Hulman photo, and a friends or family photo, each with a short caption (`assets/album/1.jpg` to `3.jpg`). The portrait is in (`assets/people/uche-portrait.jpg`).
+- **About note:** in Uche Osuji's words, why engineering, product building and community matter to her, plus up to three interests. Only varsity cheer is listed for now.
+- **Leadership:** an Adobe Student Ambassador photo (the brief has only the Adobe logo, which is not used). For each of NSBE, Adobe, Chi Omega and cheer: one action she took and one concrete example or result.
+- **Activities board:** 3 to 5 events with name, month and year, and what she did. The board shows only resume roles and dates for now.
 
-## 4. Leadership and community (TV gallery, bulletin board)
+## 4. Product case studies (Kitchen)
 
-- One photo each for NSBE, Adobe Student Ambassador, Chi Omega, and cheer, suggested `assets/community/<org>.jpg`
-- For each role: one action and one concrete example. Outcomes only if documented.
-- **Cheer:** role and dates. Cheer is in the design brief but not on the resume, so it is listed with "Details to confirm".
-- Bulletin board: specific events with name, date, and what Uche did at each
-- About: a short note in Uche's words on why engineering, product building and community matter to her; interests
+App Store screenshots and links are in for both products.
 
-## 5. Product case studies (Kitchen)
+**CRWN:** a two-sentence problem statement and one research finding or anonymized feedback example; one prioritization story (feedback, change, why, what was deferred); a before and after screen or flow; what she learned and would improve. Hidden until supplied: What I learned.
 
-**CRWN**
-- App screenshots (hero plus "What we built"), suggested `assets/work/crwn/*.png`
-- A real feedback example, and a before and after flow showing a change driven by feedback
-- Team members and what each owns, so Uche's contribution reads separately from the team's
-- Problem statement and any research
-- What I learned (Uche's reflection)
+**Hair Hub:** team size and who owned what; one feature decision for the first release; a short reflection. Hidden until supplied: Decisions and tradeoffs, What I learned.
 
-**Hair Hub**
-- App screenshots, suggested `assets/work/hair-hub/*.png`
-- The DIY hair care problem in Uche's words; feature decisions and why; team size and ownership
-- What I learned
+**How I work:** her own description of how she works and one real example that connects the five steps.
 
-**How I work (planning board):** Uche's own description of her process. Each step currently points to resume evidence only.
+## 5. Engineering (Garage)
 
-## 6. Engineering work (Garage)
+- **Keurig Dr Pepper:** her approach and a short reflection for each internship. A photo from summer 2026 and the stated challenge are in.
+- **Line following robot:** a short demo video and a telemetry or tuning screenshot; one tuning challenge; a reflection. The poster photo and team are in.
+- **RISC-V processor:** a simulation waveform; teammates' full names and roles if she wants them shown (the slides give first names only); a reflection. The team datapath, addieq RTL, test program and benchmark result are in.
+- **MP3 player:** a reflection. The photo, schematic, flowchart, scope captures, controls and measured results are in, all from the final report.
+- **Wireless trailer system:** hidden. It is not on the resume and the brief has no details for it. The junior design repo (Rose-Hulman-ECE-Junior-Design/junior-design-project-team09-fklo) is private, so it could not be checked. The Team 09 poster in the brief (Alex Freel, Sristi Kamra, Charlie Landis, Uche Osuji) is for an autonomous line following vehicle, which suggests that repo is the line following project, not a trailer. If a trailer project exists, send its role, dates, team, problem, a system diagram, and what is completed versus proposed.
 
-- **Keurig Dr Pepper:** optional approved, public-safe diagram. The site shows a simplified flow drawn only from resume text and labels it as such. No internal screens. Reflection.
-- **Line following robot:** photo, demo video, telemetry or tuning screenshot, team, reflection
-- **RISC-V processor:** Uche's actual datapath diagram, simulation evidence (for example, waveforms), team, reflection. The site shows a generic 5-stage pipeline labeled "not Uche's actual datapath".
-- **MP3 player:** photo, oscilloscope capture, input controls design, team, reflection
-- **Wireless trailer system:** everything. It is in the brief (marked in progress) but not on the resume, so only the title and "In progress" are shown: problem, team role, system diagram, app flow, and what is proposed versus demonstrated.
+## 6. To confirm
 
-**To add a project image:** in `data.js`, replace a `{ ph: "..." }` entry under `hero` or `evidence` with `{ img: "assets/work/crwn/home.png", alt: "Describe the screen", caption: "Optional caption" }`.
+- **COO's name:** the brief says "Laila Hunter". The CRWN website and her LinkedIn post say "Laila Hunte", which the site uses.
+- **Robot project name:** the resume says "Vision Guided Line Following Robot, Embedded Systems Project". The poster says "Autonomous Line Following Vehicle with Capacitor Based Energy Storage". The site uses the resume title and quotes the poster title in the photo caption.
+- **Contact:** preferred email and exact LinkedIn URL. The site uses osujiun@rose-hulman.edu and linkedin.com/in/uchechiosuji from the resume.

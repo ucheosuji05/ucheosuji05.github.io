@@ -192,7 +192,7 @@ img.scene-art{object-fit:cover}
 .diagram svg{width:100%;height:auto}
 .diagram figcaption{font-size:15px;margin-top:6px;color:var(--plum-2)}
 
-/* placeholders: clearly marked, never mistaken for real work */
+/* legacy placeholder styles (no longer rendered) */
 .ph{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:10px 0 14px;padding:14px 16px;border-radius:16px;border:2px dashed var(--plum);
   background:repeating-linear-gradient(135deg,#fff 0 14px,#FDF0F7 14px 28px);color:var(--plum);font-size:16px;line-height:1.4}
 .ph-tag{font:600 13px/1 var(--fb);letter-spacing:.04em;padding:6px 9px;border-radius:999px;background:var(--plum);color:var(--white)}
@@ -220,8 +220,8 @@ img.scene-art{object-fit:cover}
 .notes .stat-n{color:var(--pink-d)}
 .note-src{display:block;margin-top:8px;font-weight:600;font-size:15px}
 .steps{list-style:none;counter-reset:s;padding:0;margin:0 0 14px;display:grid;gap:12px}
-.steps li{counter-increment:s;position:relative;padding:14px 16px 6px 64px;border-radius:18px;background:var(--white);box-shadow:inset 0 0 0 2px var(--lav)}
-.steps li::before{content:counter(s);position:absolute;left:16px;top:14px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--pink);color:var(--white);font:600 18px var(--fh)}
+.steps li{position:relative;padding:14px 16px 6px 16px;border-radius:18px;background:var(--white);box-shadow:inset 0 0 0 2px var(--lav)}
+.step-n{display:inline-grid;place-items:center;width:34px;height:34px;margin-right:8px;border-radius:50%;background:var(--pink);color:var(--white);font:600 18px var(--fh);vertical-align:middle}
 .steps p{margin-bottom:0}
 .resume-actions,.contact-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
 .r-contact{font-weight:600;overflow-wrap:anywhere}
@@ -291,3 +291,20 @@ img.scene-art{object-fit:cover}
 .work-item a,.text-link{min-height:48px}
 .chip-link,.mini-map a{min-height:48px}
 .shot{margin:0}.shot img{width:100%;height:auto;border-radius:16px;box-shadow:inset 0 0 0 2px var(--lav)}.shot figcaption{font-size:15px;margin-top:6px}
+
+/* ---------- fill-holes pass: logo, photos, galleries ---------- */
+.mark{gap:10px;font-size:32px}
+.mark img{width:40px;height:40px;flex:none;object-fit:contain}
+@media (max-width:640px){.mark{font-size:26px}.mark img{width:34px;height:34px}}
+.exterior .intro.in-scene{left:auto;right:2.5%;top:4%;width:44%;max-width:600px}
+.dl-line{margin:6px 0 0}.dl-line .text-link{display:inline-flex;align-items:center}
+.about-img img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:22px;box-shadow:0 0 0 3px var(--white),var(--lift)}
+.lead img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:14px}
+.lead.no-img{grid-template-columns:1fr}
+.gallery{margin:0}
+.phones{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:12px}
+.phones img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:inset 0 0 0 2px var(--lav),0 6px 16px rgba(48,21,46,.14)}
+.gallery figcaption,.shot figcaption{font-size:15px;margin-top:8px;color:var(--plum)}
+.cs-hero .shot img{max-height:520px;object-fit:contain;background:var(--white)}
+.cs-links{display:flex;flex-wrap:wrap;gap:10px}
+.evidence .shot img{background:var(--white)}
