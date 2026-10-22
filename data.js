@@ -113,7 +113,7 @@ window.DH = {
         { id: "overview", h: "Overview", p: ["CRWN is a full-stack mobile app for the textured hair community, now available on the Apple App Store. Uche Osuji co-founded it and leads the technology as CTO."] },
         { id: "problem", h: "Problem and audience", p: ["Built for people with textured hair and the hair providers they look for."] },
         { id: "role", h: "My role and team",
-          list: ["Uche Osuji, CTO (developer)", "Sarah Nyaanga, CEO, also UX/UI designer and short-film director", "Laila Hunte, COO"],
+          list: ["Uche Osuji, CTO (developer)", "Sarah Nyaanga, CEO, also UX/UI designer and short-film director", "Laila Hunter, COO"],
           p: ["Technical: architected and developed the full-stack mobile MVP in React Native, Expo, JavaScript and Supabase.",
               "Product: prioritized user-generated content and provider profiles based on user and provider feedback.",
               "Launch: led launch and growth efforts, and secured $18,150 in non-dilutive funding through startup competitions and accelerators."] },

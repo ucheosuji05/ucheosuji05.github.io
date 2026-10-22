@@ -50,6 +50,5 @@ App Store screenshots and links are in for both products.
 
 ## 6. To confirm
 
-- **COO's name:** the brief says "Laila Hunter". The CRWN website and her LinkedIn post say "Laila Hunte", which the site uses.
 - **Robot project name:** the resume says "Vision Guided Line Following Robot, Embedded Systems Project". The poster says "Autonomous Line Following Vehicle with Capacitor Based Energy Storage". The site uses the resume title and quotes the poster title in the photo caption.
 - **Contact:** preferred email and exact LinkedIn URL. The site uses osujiun@rose-hulman.edu and linkedin.com/in/uchechiosuji from the resume.
