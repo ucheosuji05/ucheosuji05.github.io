@@ -190,10 +190,15 @@
     let rw, rh, ox, oy;
     if (W / H > ratio) { rw = W; rh = W / ratio; ox = 0; oy = (H - rh) / 2; } else { rh = H; rw = H * ratio; oy = 0; ox = (W - rw) / 2; }
     const sr = scene.getBoundingClientRect(), pad = 10;
-    const hdr = $(".topbar").getBoundingClientRect(), sbr = bar.getBoundingClientRect();
-    const rel = el => { const q = el.getBoundingClientRect(); return { l: q.left - sr.left, t: q.top - sr.top, r: q.right - sr.left, b: q.bottom - sr.top }; };
-    const topSafe = Math.max(pad, hdr.bottom - sr.top + pad);
-    const botSafe = Math.min(H - pad, sbr.top - sr.top - pad);
+    // The room fades in with a slight scale; divide it out so mid-animation measurements match the settled layout.
+    const k = sr.width / (scene.offsetWidth || sr.width) || 1;
+    const rel = el => { const q = el.getBoundingClientRect(); return { l: (q.left - sr.left) / k, t: (q.top - sr.top) / k, r: (q.right - sr.left) / k, b: (q.bottom - sr.top) / k }; };
+    // Safe zones are measured as if the page were scrolled to the top, where the scene sits under the fixed header
+    // and above the fixed scene bar. Using live viewport positions here broke the layout whenever it re-ran while the
+    // page was scrolled (for example after a closet look scrolls down to its result): every hotspot got pushed to the bottom.
+    const sceneTop = sr.top + window.scrollY, vh = document.documentElement.clientHeight;
+    const topSafe = Math.max(pad, $(".topbar").offsetHeight - sceneTop + pad);
+    const botSafe = Math.min(H - pad, vh - bar.offsetHeight - sceneTop - pad);
     const obstacles = [$(".room-head:not(.sr-only)", scene.closest(".room")), $(".intro.in-scene:not([hidden])", scene)].filter(Boolean).map(rel);
     const hit = (a, o) => !(a.r <= o.l || a.l >= o.r || a.b <= o.t || a.t >= o.b);
     $$(".hs", layer).forEach((a, i) => {
@@ -243,6 +248,11 @@
   let rz;
   window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => currentView !== "work" && layoutScene(), 120); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => currentView !== "work" && layoutScene());
+  // Re-run the layout when the header or scene bar changes height (a web font arriving late, a wrapped label),
+  // since the hotspot safe zones depend on both.
+  view.addEventListener("animationend", e => { if (e.target.parentElement === view && currentView !== "work") layoutScene(); });
+  if (window.ResizeObserver) { let ro; const obs = new ResizeObserver(() => { cancelAnimationFrame(ro); ro = requestAnimationFrame(() => currentView !== "work" && layoutScene()); });
+    [$(".topbar"), bar].forEach(el => el && obs.observe(el)); }
   function swapTag(el, tag) {
     if (el.tagName.toLowerCase() === tag) return;
     const n = document.createElement(tag); n.className = el.className; n.innerHTML = el.innerHTML;
