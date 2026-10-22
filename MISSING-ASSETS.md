@@ -11,11 +11,13 @@ Updated October 21 2026. Nothing on the site is invented. A section with nothing
 
 All five rooms use the supplied stills from Barbie: Life in the Dreamhouse, cropped to 16:10 in `assets/rooms/`. They are low resolution and look soft on a 1440 px desktop. Uncropped originals at 1920 px wide or more would fix that.
 
+The kitchen and living room are conventional upscales of the small stills (light denoise, Lanczos resampling and a mild unsharp mask; no AI or generative upscaling, so no detail was added). This smooths the blockiness a little but cannot add real detail; a true higher-resolution still would still be better. The original crops `kitchen.jpg` and `living-room.jpg` are kept beside them.
+
 | Room | File used | Supplied size | Cropped to |
 |---|---|---|---|
 | Exterior | `exterior.jpg` | 1199x672 (12 px black bar on the right) | 1075x672 |
-| Living room | `living-room-b-sofa.jpg` | 600x450 | 600x375 |
-| Kitchen | `kitchen.jpg` | 529x301 | 482x301 (softest) |
+| Living room | `living-room-b-sofa.jpg` | 600x450 | 600x375, upscaled to 1920x1200 (`living-room-1920.jpg`) |
+| Kitchen | `kitchen.jpg` | 529x301 | 482x301, upscaled to 1920x1199 (`kitchen-1920.jpg`, still the softest) |
 | Closet | `closet-a-zebra-rug.jpg` | 1200x718 | 1149x718 |
 | Garage | `garage-b-car.jpg` | 992x828 | 992x620 |
 

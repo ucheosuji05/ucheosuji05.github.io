@@ -18,7 +18,7 @@ window.DH = {
         { label: "Front door: enter", href: "#/living-room", x: 23.5, y: 53, icon: "door", side: "right" },
         { label: "Front gate: contact", href: "#/contact", x: 21, y: 71, icon: "mail", side: "right" }
       ] },
-    { id: "living-room", name: "Living Room", short: "Living", photo: "assets/rooms/living-room.jpg", w: 600, h: 375,
+    { id: "living-room", name: "Living Room", short: "Living", photo: "assets/rooms/living-room-1920.jpg", w: 1920, h: 1200,
       alt: "Scene from Barbie: Life in the Dreamhouse. A pink living room with framed pictures, an armchair and a white sofa",
       lede: "About Uche Osuji and the communities she is part of.",
       hotspots: [
@@ -27,7 +27,7 @@ window.DH = {
         { label: "Sofa: activities", href: "#/living-room/activities", x: 80, y: 60, icon: "pin", side: "left" }
       ],
       next: "Next, see the product studio in the Kitchen or the engineering work in the Garage." },
-    { id: "kitchen", name: "Kitchen", short: "Kitchen", photo: "assets/rooms/kitchen.jpg", w: 482, h: 301,
+    { id: "kitchen", name: "Kitchen", short: "Kitchen", photo: "assets/rooms/kitchen-1920.jpg", w: 1920, h: 1199,
       alt: "Scene from Barbie: Life in the Dreamhouse. A pink kitchen with a breakfast table, counters and a chandelier",
       lede: "The product studio: CRWN and Hair Hub, each as its own case study.",
       hotspots: [
@@ -113,7 +113,7 @@ window.DH = {
         { id: "overview", h: "Overview", p: ["CRWN is a full-stack mobile app for the textured hair community, now available on the Apple App Store. Uche Osuji co-founded it and leads the technology as CTO."] },
         { id: "problem", h: "Problem and audience", p: ["Built for people with textured hair and the hair providers they look for."] },
         { id: "role", h: "My role and team",
-          list: ["Uche Osuji, CTO (developer)", "Sarah Nyaanga, CEO, also UX/UI designer and short-film director", "Laila Hunter, COO"],
+          list: ["Uche Osuji, CTO (developer)", "Sarah Nyaanga, CEO, also UX/UI designer and short-film director", "Laila Hunte, COO"],
           p: ["Technical: architected and developed the full-stack mobile MVP in React Native, Expo, JavaScript and Supabase.",
               "Product: prioritized user-generated content and provider profiles based on user and provider feedback.",
               "Launch: led launch and growth efforts, and secured $18,150 in non-dilutive funding through startup competitions and accelerators."] },
