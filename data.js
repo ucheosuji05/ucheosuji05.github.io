@@ -18,13 +18,13 @@ window.DH = {
         { label: "Front door: enter", href: "#/living-room", x: 23.5, y: 53, icon: "door", side: "right" },
         { label: "Front gate: contact", href: "#/contact", x: 21, y: 71, icon: "mail", side: "right" }
       ] },
-    { id: "living-room", name: "Living Room", short: "Living", photo: "assets/rooms/living-room-1920.jpg", w: 1920, h: 1200,
-      alt: "Scene from Barbie: Life in the Dreamhouse. A pink living room with framed pictures, an armchair and a white sofa",
+    { id: "living-room", name: "Living Room", short: "Living", photo: "assets/rooms/living-room-stairs-1920.jpg", w: 1920, h: 1199,
+      alt: "Scene from Barbie: Life in the Dreamhouse. A pink hall with twin curved staircases, a balcony with B railings, a curtained arch, framed palm-tree pictures, a mirror, a side table and a rug",
       lede: "About Uche Osuji and the communities she is part of.",
       hotspots: [
-        { label: "Family photo: about me", href: "#/living-room/about", x: 73, y: 16, icon: "album", side: "below" },
-        { label: "Gallery wall: community", href: "#/living-room/community", x: 41, y: 18, icon: "tv", side: "below" },
-        { label: "Sofa: activities", href: "#/living-room/activities", x: 80, y: 60, icon: "pin", side: "left" }
+        { label: "Mirror: about me", href: "#/living-room/about", x: 23, y: 68, icon: "album", side: "right" },
+        { label: "Balcony: community", href: "#/living-room/community", x: 46, y: 37, icon: "tv", side: "below" },
+        { label: "Staircase: activities", href: "#/living-room/activities", x: 77, y: 68, icon: "pin", side: "left" }
       ],
       next: "Next, see the product studio in the Kitchen or the engineering work in the Garage." },
     { id: "kitchen", name: "Kitchen", short: "Kitchen", photo: "assets/rooms/kitchen-1920.jpg", w: 1920, h: 1199,
