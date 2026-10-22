@@ -197,7 +197,7 @@ window.DH = {
       tags: ["MSP432", "Embedded C", "PWM", "Oscilloscope"],
       sections: [
         { id: "overview", h: "Overview", list: ["Embedded C firmware on an MSP432P4111 using timers and interrupts.", "LCD screen, four push buttons and a slide potentiometer for volume.", "PWM audio through an NPN transistor driver.", "6-song playlist: Happy Birthday, Mozart, Beethoven, and the Hannah Montana, Teen Titans and Totally Spies theme songs."] },
-        { id: "role", h: "My role and team", p: ["Uche Osuji, Firmware Lead: wrote the embedded C firmware, using timers and interrupts to control the playlist.", "Team: Uche Osuji and Gabby Guffey."] },
+        { id: "role", h: "My role and team", p: ["Partner project: a two-person team.", "Uche Osuji, Firmware Lead: wrote the embedded C firmware, using timers and interrupts to control the playlist."] },
         { id: "controls", h: "Input controls", list: ["Power: restarts playback from the first song.", "Play/Pause: stops playback, and a second press picks up where it left off.", "Skip: next song.", "Back: previous song.", "Slider: adjusts the speaker volume."] },
         { id: "decisions", h: "Decisions and tradeoffs", p: ["The plan included an RGB LED that flashed with the beat, colored by frequency range. When it was added the speaker stopped working, so after debugging the team removed the feature and shipped the working player."] },
         { id: "results", h: "Results", p: ["Measured on the oscilloscope against the report's test plan."],
