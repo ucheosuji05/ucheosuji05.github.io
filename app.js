@@ -118,13 +118,13 @@
     if (h.role) return `<li><button type="button" class="spot" data-role="${h.role}" aria-pressed="false">${inner}</button></li>`;
     return `<li><a class="spot" href="${h.href}">${inner}</a></li>`;
   }
-  function sceneHTML(r) {
+  function sceneHTML(r, between = "") {
     const art = r.photo ? `<img class="scene-art" src="${esc(r.photo)}" alt="" width="${r.w || 1600}" height="${r.h || 1000}" decoding="async"${r.id === "exterior" ? ' fetchpriority="high"' : ""}>` : SCENES[r.id];
     return `<div class="scene-wrap"><div class="scene" role="group" aria-label="${esc(r.name)} scene">
         <div class="scene-img" role="img" aria-label="${esc(r.alt)}">${art}</div>
         ${r.id === "exterior" ? introHTML("in-scene") : ""}
         <div class="hotspots">${r.hotspots.map(hotspotHTML).join("")}</div>
-      </div></div>
+      </div></div>${between}
       <nav class="spots" aria-label="In the ${esc(r.name)}"><ul>${r.hotspots.map(spotButtonHTML).join("")}</ul></nav>`;
   }
   function introHTML(where) {
@@ -148,11 +148,12 @@
   function renderView(v) {
     currentView = v;
     view.classList.remove("enter"); void view.offsetWidth; view.classList.add("enter");
+    document.body.dataset.view = v;
+    document.body.classList.toggle("fullbleed", v !== "work");
     if (v === "work") { view.innerHTML = workHTML(); renderBar(v); return; }
     const r = room(v);
-    document.body.dataset.view = v;
     if (v === "exterior") {
-      view.innerHTML = `<section class="room exterior" aria-label="Exterior">${introHTML("in-flow")}${sceneHTML(r)}</section>`;
+      view.innerHTML = `<section class="room exterior" aria-label="Exterior">${sceneHTML(r, introHTML("in-flow"))}</section>`;
       // Only one h1: in-flow intro is shown on narrower screens, in-scene on wide ones.
       fixExteriorHeadings();
     } else {
@@ -166,6 +167,51 @@
     }
     renderBar(v);
     preloadNext(v);
+    layoutScene();
+  }
+
+  /* Full-bleed scenes: the photo is object-fit: cover, so map each hotspot's image percent onto the
+     rendered cover box, then nudge it so it stays inside the visible scene and clear of the overlays. */
+  function setBars() {
+    const hb = $(".topbar"), sb = bar;
+    document.body.style.setProperty("--hdr", (hb ? hb.offsetHeight : 64) + "px");
+    document.body.style.setProperty("--sb", (sb ? sb.offsetHeight : 64) + "px");
+  }
+  function layoutScene() {
+    setBars();
+    if (currentView === "exterior") fixExteriorHeadings();
+    layoutHotspots();
+  }
+  function layoutHotspots() {
+    const r = room(currentView), scene = $(".scene"), layer = $(".scene .hotspots");
+    if (!r || !scene || !layer || !layer.getClientRects().length) return;
+    const W = scene.clientWidth, H = scene.clientHeight, ratio = (r.w || 16) / (r.h || 10);
+    let rw, rh, ox, oy;
+    if (W / H > ratio) { rw = W; rh = W / ratio; ox = 0; oy = (H - rh) / 2; } else { rh = H; rw = H * ratio; oy = 0; ox = (W - rw) / 2; }
+    const sr = scene.getBoundingClientRect(), pad = 10;
+    const hdr = $(".topbar").getBoundingClientRect(), sbr = bar.getBoundingClientRect();
+    const rel = el => { const q = el.getBoundingClientRect(); return { l: q.left - sr.left, t: q.top - sr.top, r: q.right - sr.left, b: q.bottom - sr.top }; };
+    const topSafe = Math.max(pad, hdr.bottom - sr.top + pad);
+    const botSafe = Math.min(H - pad, sbr.top - sr.top - pad);
+    const obstacles = [$(".room-head", scene.closest(".room")), $(".intro.in-scene:not([hidden])", scene)].filter(Boolean).map(rel);
+    const hit = (a, o) => !(a.r <= o.l || a.l >= o.r || a.b <= o.t || a.t >= o.b);
+    $$(".hs", layer).forEach((a, i) => {
+      const h = r.hotspots[i]; if (!h) return;
+      let x = ox + rw * h.x / 100, y = oy + rh * h.y / 100;
+      a.style.left = x + "px"; a.style.top = y + "px";
+      for (let pass = 0; pass < 3; pass++) {
+        let q = rel(a), dx = 0, dy = 0;
+        if (q.l < pad) dx = pad - q.l; else if (q.r > W - pad) dx = W - pad - q.r;
+        if (q.t < topSafe) dy = topSafe - q.t; else if (q.b > botSafe) dy = botSafe - q.b;
+        x += dx; y += dy; a.style.left = x + "px"; a.style.top = y + "px";
+        q = rel(a);
+        const o = obstacles.find(o => hit(q, o));
+        if (!o) break;
+        // the room title sits top-left: move below it; the intro card sits on the right: move left of it
+        if (o.t < H / 3 && o.l < W / 2) y += o.b + pad - q.t; else x -= q.r - (o.l - pad);
+        a.style.left = x + "px"; a.style.top = y + "px";
+      }
+    });
   }
   // The intro exists twice: inside the scene's quiet sky area on large screens, above the scene otherwise.
   // Use the in-scene card only when it actually fits inside the scene; expose only the visible copy as the h1.
@@ -183,7 +229,8 @@
     if (useScene) {
       apply(true);
       const scene = inScene.parentElement;
-      if (inScene.offsetTop + inScene.offsetHeight > scene.clientHeight - 12) useScene = false;
+      const sbH = document.body.classList.contains("fullbleed") ? bar.offsetHeight : 0;
+      if (inScene.offsetTop + inScene.offsetHeight > scene.clientHeight - sbH - 12) useScene = false;
     }
     apply(useScene);
     const active = document.activeElement;
@@ -193,8 +240,8 @@
     if (hadFocus) { const h = $("#view h1"); if (h) h.focus({ preventScroll: true }); }
   }
   let rz;
-  window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => currentView === "exterior" && fixExteriorHeadings(), 120); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => currentView === "exterior" && fixExteriorHeadings());
+  window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => currentView !== "work" && layoutScene(), 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => currentView !== "work" && layoutScene());
   function swapTag(el, tag) {
     if (el.tagName.toLowerCase() === tag) return;
     const n = document.createElement(tag); n.className = el.className; n.innerHTML = el.innerHTML;
@@ -477,6 +524,7 @@
     el.classList.remove("spark"); void el.offsetWidth; el.classList.add("spark");
     setTimeout(() => el.classList.remove("spark"), 900);
   }
+  view.addEventListener("animationend", () => { if (currentView !== "work") layoutHotspots(); });
   window.addEventListener("hashchange", render);
   $("#y").textContent = new Date().getFullYear();
   render();

@@ -308,3 +308,26 @@ img.scene-art{object-fit:cover}
 .cs-hero .shot img{max-height:520px;object-fit:contain;background:var(--white)}
 .cs-links{display:flex;flex-wrap:wrap;gap:10px}
 .evidence .shot img{background:var(--white)}
+
+/* ---------- full-bleed rooms: the scene fills the viewport, header and scene bar float over it ---------- */
+body.fullbleed{--hdr:var(--bar);--sb:64px;background:var(--cream)}
+body.fullbleed .topbar{position:fixed;left:0;right:0;top:0;min-height:56px;padding-top:4px;padding-bottom:4px;background:rgba(255,249,244,.86);border-bottom:0;box-shadow:0 2px 12px rgba(48,21,46,.12)}
+body.fullbleed .scenebar{position:fixed;left:0;right:0;bottom:0;min-height:56px;padding-top:6px;padding-bottom:calc(6px + env(safe-area-inset-bottom));background:rgba(255,249,244,.86);border-top:0;box-shadow:0 -2px 12px rgba(48,21,46,.12)}
+body.fullbleed main{padding:0}
+body.fullbleed .room{max-width:none;margin:0;position:relative;--scene-w:100%}
+body.fullbleed .scene-wrap{width:100%;min-width:0;margin:0}
+body.fullbleed .scene{aspect-ratio:auto;height:100svh;min-height:520px;border-radius:0;box-shadow:none;background:var(--plum)}
+body.fullbleed img.scene-art{object-fit:cover;object-position:50% 50%}
+body.fullbleed .room-head{position:absolute;z-index:3;left:max(16px,env(safe-area-inset-left));top:calc(var(--hdr) + 12px);width:auto;max-width:min(560px,calc(100% - 32px));margin:0;
+  padding:10px 18px 12px;border-radius:20px;background:rgba(255,249,244,.93);box-shadow:0 6px 18px rgba(48,21,46,.18);display:block}
+body.fullbleed .room-head h1{font-size:clamp(1.6rem,1.1rem + 1.2vw,2.4rem)}
+body.fullbleed .lede{font-size:16px}
+body.fullbleed .exterior .intro.in-scene{top:calc(var(--hdr) + 16px)}
+body.fullbleed .spots,body.fullbleed .next-hint,body.fullbleed .closet-result,body.fullbleed .intro.in-flow{width:auto;margin-left:max(16px,env(safe-area-inset-left));margin-right:max(16px,env(safe-area-inset-right))}
+body.fullbleed .intro.in-flow{margin-top:16px}
+body.fullbleed .closet-result{margin-top:20px}
+body.fullbleed .foot{padding-bottom:calc(var(--sb) + 18px)}
+body.fullbleed .room>:last-child{margin-bottom:16px}
+@media (max-width:899px){
+  body.fullbleed .scene{height:min(72svh,640px);min-height:380px}
+}
