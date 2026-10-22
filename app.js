@@ -157,8 +157,9 @@
       // Only one h1: in-flow intro is shown on narrower screens, in-scene on wide ones.
       fixExteriorHeadings();
     } else {
-      view.innerHTML = `<section class="room" aria-labelledby="room-title">
-        <div class="room-head"><h1 id="room-title" tabindex="-1">${esc(r.name)}</h1><p class="lede">${esc(r.lede || "")}</p></div>
+      // Room heading and tagline are visually hidden (the scene starts under the site header) but kept for screen readers and axe.
+      view.innerHTML = `<section class="room" aria-labelledby="room-title"${r.lede ? ' aria-describedby="room-lede"' : ""}>
+        <div class="room-head sr-only"><h1 id="room-title" tabindex="-1">${esc(r.name)}</h1>${r.lede ? `<p id="room-lede" class="lede">${esc(r.lede)}</p>` : ""}</div>
         ${sceneHTML(r)}
         ${v === "closet" ? `<section id="closet-result" class="closet-result" aria-live="polite"></section>` : ""}
         ${r.next ? `<p class="next-hint">${esc(r.next)} <a href="#/kitchen">Kitchen</a> · <a href="#/garage">Garage</a></p>` : ""}
@@ -193,7 +194,7 @@
     const rel = el => { const q = el.getBoundingClientRect(); return { l: q.left - sr.left, t: q.top - sr.top, r: q.right - sr.left, b: q.bottom - sr.top }; };
     const topSafe = Math.max(pad, hdr.bottom - sr.top + pad);
     const botSafe = Math.min(H - pad, sbr.top - sr.top - pad);
-    const obstacles = [$(".room-head", scene.closest(".room")), $(".intro.in-scene:not([hidden])", scene)].filter(Boolean).map(rel);
+    const obstacles = [$(".room-head:not(.sr-only)", scene.closest(".room")), $(".intro.in-scene:not([hidden])", scene)].filter(Boolean).map(rel);
     const hit = (a, o) => !(a.r <= o.l || a.l >= o.r || a.b <= o.t || a.t >= o.b);
     $$(".hs", layer).forEach((a, i) => {
       const h = r.hotspots[i]; if (!h) return;
