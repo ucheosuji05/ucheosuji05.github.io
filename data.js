@@ -12,13 +12,13 @@ window.DH = {
 
   /* Scene order drives Previous / Next. Each photo is pre-cropped to 16:10, so hotspot x/y are percent of the image. */
   rooms: [
-    { id: "exterior", name: "Exterior", short: "House", photo: "assets/rooms/exterior.jpg", w: 1075, h: 672,
+    { id: "exterior", name: "Exterior", short: "House", photo: "assets/rooms/exterior-hd-1502.jpg", w: 1502, h: 939,
       alt: "Scene from Barbie: Life in the Dreamhouse. The pink Dreamhouse with a front door, a fountain and a gated drive",
       hotspots: [
         { label: "Front door: enter", href: "#/living-room", x: 23.5, y: 53, icon: "door", side: "right" },
         { label: "Front gate: contact", href: "#/contact", x: 21, y: 71, icon: "mail", side: "right" }
       ] },
-    { id: "living-room", name: "Living Room", short: "Living", photo: "assets/rooms/living-room-stairs-1920.jpg", w: 1920, h: 1199,
+    { id: "living-room", name: "Living Room", short: "Living", photo: "assets/rooms/living-room-hd-1558.jpg", w: 1558, h: 974,
       alt: "Scene from Barbie: Life in the Dreamhouse. A pink hall with twin curved staircases, a balcony with B railings, a curtained arch, framed palm-tree pictures, a mirror, a side table and a rug",
       lede: "About Uche Osuji and the communities she is part of.",
       hotspots: [
@@ -27,7 +27,7 @@ window.DH = {
         { label: "Staircase: activities", href: "#/living-room/activities", x: 77, y: 68, icon: "pin", side: "left" }
       ],
       next: "Next, see the product studio in the Kitchen or the engineering work in the Garage." },
-    { id: "kitchen", name: "Kitchen", short: "Kitchen", photo: "assets/rooms/kitchen-1920.jpg", w: 1920, h: 1199,
+    { id: "kitchen", name: "Kitchen", short: "Kitchen", photo: "assets/rooms/kitchen-hd-1514.jpg", w: 1514, h: 946,
       alt: "Scene from Barbie: Life in the Dreamhouse. A pink kitchen with a breakfast table, counters and a chandelier",
       lede: "The product studio: CRWN and Hair Hub, each as its own case study.",
       hotspots: [
@@ -36,7 +36,7 @@ window.DH = {
         { label: "Pantry door: outcomes", href: "#/kitchen/outcomes", x: 52, y: 38, icon: "note", side: "below" },
         { label: "Shelf: how I work", href: "#/kitchen/how-i-work", x: 86, y: 36, icon: "board", side: "left" }
       ] },
-    { id: "closet", name: "Closet", short: "Closet", photo: "assets/rooms/closet.jpg", w: 1149, h: 718,
+    { id: "closet", name: "Closet", short: "Closet", photo: "assets/rooms/closet-hd-1552.jpg", w: 1552, h: 970,
       alt: "Scene from Barbie: Life in the Dreamhouse. A walk-in closet with shelves, clothing racks, a dressing screen, a mannequin and a zebra rug",
       lede: "Pick a look to see the matching projects and skills.",
       hotspots: [
@@ -45,7 +45,7 @@ window.DH = {
         { label: "Community Leader", role: "community", x: 90, y: 54, icon: "badge", side: "left" },
         { label: "Drawers: all skills", href: "#/closet/skills", x: 64, y: 62, icon: "gem", side: "below" }
       ] },
-    { id: "garage", name: "Garage", short: "Garage", photo: "assets/rooms/garage.jpg", w: 992, h: 620,
+    { id: "garage", name: "Garage", short: "Garage", photo: "assets/rooms/garage-hd-1374.jpg", w: 1374, h: 859,
       alt: "Scene from Barbie: Life in the Dreamhouse. A garage with a pink convertible, wall cabinets, a workbench and a tool chest",
       lede: "The engineering workspace: internships and hardware projects.",
       hotspots: [

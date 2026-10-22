@@ -9,21 +9,19 @@ Updated October 21 2026. Nothing on the site is invented. A section with nothing
 
 ## 2. Scene backgrounds (higher resolution)
 
-All five rooms use the supplied stills from Barbie: Life in the Dreamhouse, cropped to 16:10 in `assets/rooms/`. They are low resolution and look soft on a 1440 px desktop. Uncropped originals at 1920 px wide or more would fix that.
-
-The kitchen and living room scenes are conventional upscales of small stills (light denoise, Lanczos resampling and a mild unsharp mask; no AI or generative upscaling, so no detail was added). This smooths the blockiness a little but cannot add real detail; a true higher-resolution still would still be better. The original crop `kitchen.jpg` is kept beside its upscale. The earlier sofa living room (`living-room.jpg`, `living-room-1920.jpg`) is no longer used but kept in the folder.
+All five rooms now use the higher-resolution stills Uche supplied on Oct 22 2026 (Barbie: Life in the Dreamhouse), cropped to 16:10 in `assets/rooms/` at their native width. They are the same shots as the earlier stills, so the hotspot positions did not need to move. Nothing was upscaled or generated. They are still a little under 1920 px wide, so stills at 1920 px or wider would be sharper on very large screens.
 
 | Room | File used | Supplied size | Cropped to |
 |---|---|---|---|
-| Exterior | `exterior.jpg` | 1199x672 (12 px black bar on the right) | 1075x672 |
-| Living room | `living-room-c-staircase.jpg` (same still as `living-room-a-staircase.jpg`) | 735x476 | 735x459 (17 px of ceiling trimmed from the top), upscaled to 1920x1199 (`living-room-stairs-1920.jpg`) |
-| Kitchen | `kitchen.jpg` | 529x301 | 482x301, upscaled to 1920x1199 (`kitchen-1920.jpg`, still the softest) |
-| Closet | `closet-a-zebra-rug.jpg` | 1200x718 | 1149x718 |
-| Garage | `garage-b-car.jpg` | 992x828 | 992x620 |
+| Exterior | `exterior-hd-1502.jpg` | 1675x939 | 1502x939 |
+| Living room | `living-room-hd-1558.jpg` | 1558x1009 | 1558x974 |
+| Kitchen | `kitchen-hd-1514.jpg` | 1662x946 | 1514x946 |
+| Closet | `closet-hd-1552.jpg` | 1622x970 | 1552x970 |
+| Garage | `garage-hd-1374.jpg` | 1374x1145 | 1374x859 |
 
-Alternates not used: `living-room-b-sofa.jpg` (600x450, the previous living room), `closet-b-runway.jpg` (736x428), `garage-a-doors.jpg` (730x398).
+The earlier low-resolution files and upscales (`exterior.jpg`, `living-room-stairs-1920.jpg`, `kitchen.jpg`, `kitchen-1920.jpg`, `closet.jpg`, `garage.jpg`, `living-room.jpg`, `living-room-1920.jpg`) are no longer used but kept in the folder.
 
-To swap a scene: crop it to 16:10, save it over the file in `assets/rooms/`, update `w`/`h` in `data.js`, and check each hotspot's `x`/`y` (percent of the image).
+To swap a scene: crop it to 16:10, save it in `assets/rooms/`, point `photo` at it, update `w`/`h` in `data.js`, and check each hotspot's `x`/`y` (percent of the image).
 
 ## 3. Living room
 
